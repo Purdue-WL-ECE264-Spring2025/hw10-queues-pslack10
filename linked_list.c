@@ -46,18 +46,26 @@ size_t remove_from_head(struct linked_list *list)
 
 size_t remove_from_tail(struct linked_list *list) 
 { 
-  struct list_node* node = list -> head;
+  struct list_node* current = list -> head;
+  struct list_node* previous = NULL;
 
-  while (node -> next -> next != NULL)
+  while (current -> next != NULL)
   {
-    node = node -> next;
+    previous = current;
+    current = current -> next;
   }
 
-  struct list_node* removed_tail = node -> next;
-  size_t removed_value = removed_tail -> value;
-  node -> next = NULL;
-  free(removed_tail);
-
+  size_t removed_value = current -> value;
+  if (previous == NULL)
+  {
+    list -> head = NULL;
+  }
+  else
+  {
+    previous -> next = NULL;
+  }
+  
+  free(current);
   return removed_value; 
 }
 
